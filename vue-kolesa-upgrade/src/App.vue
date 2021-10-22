@@ -133,7 +133,7 @@
               >
                   <div class="card__image">
                       <img
-                          :src="require(card.img)"
+                          :src="require(`@/assets/${card.img}`)"
                           alt="Модная футболка"
                           class="card__photo"
                       >
@@ -442,42 +442,42 @@ export default {
       clothes: [
         {
           id: 0,
-          img: './assets/image_4.png',
+          img: 'image_4.png',
           title: 'Футболка "Эволюционируй или сдохни"',
           price: 220,
           isNew: true,
         },
         {
           id: 1,
-          img: './assets/image_4.png',
+          img: 'image_4.png',
           title: 'Футболка "Эволюционируй или сдохни"',
           price: 220,
           isNew: false,
         },
         {
           id: 2,
-          img: './assets/sweatshirt.jpg',
+          img: 'sweatshirt.jpg',
           title: 'Свитшот',
           price: 100,
           isNew: true,
         },
         {
           id: 3,
-          img: './assets/sweatshirt.jpg',
+          img: 'sweatshirt.jpg',
           title: 'Свитшот',
           price: 100,
           isNew: false,
         },
         {
           id: 4,
-          img: './assets/polo.png',
+          img: 'polo.png',
           title: 'Поло',
           price: 340,
           isNew: true,
         },
         {
           id: 5,
-          img: './assets/polo.png',
+          img: 'polo.png',
           title: 'Поло',
           price: 340,
           isNew: false,
@@ -487,7 +487,7 @@ export default {
       accessories: [
         {
           id: 6,
-          img: './assets/bottle.png',
+          img: 'bottle.png',
           title: 'Бутылка для воды',
           price: 100,
           isNew: true,
@@ -495,7 +495,7 @@ export default {
         },
         {
           id: 7,
-          img: './assets/bottle.png',
+          img: 'bottle.png',
           title: 'Бутылка для воды',
           price: 100,
           isNew: false,
@@ -504,7 +504,7 @@ export default {
         },
         {
           id: 8,
-          img: './assets/cap.png',
+          img: 'cap.png',
           title: 'Кепка',
           price: 150,
           isNew: true,
@@ -513,7 +513,7 @@ export default {
         },
         {
           id: 9,
-          img: './assets/cap.png',
+          img: 'cap.png',
           title: 'Кепка',
           price: 150,
           isNew: false,
@@ -522,7 +522,7 @@ export default {
         },
         {
           id: 10,
-          img: './assets/coffee_cup.jpg',
+          img: 'coffee_cup.jpg',
           title: 'Стакан для кофе',
           price: 50,
           isNew: true,
@@ -531,7 +531,7 @@ export default {
         },
         {
           id: 11,
-          img: './assets/coffee_cup.jpg',
+          img: 'coffee_cup.jpg',
           title: 'Стакан для кофе',
           price: 50,
           isNew: false,
