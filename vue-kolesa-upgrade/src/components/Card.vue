@@ -1,63 +1,30 @@
 <template>
-  <div id="app">
-    <div class="wrapper">
-      <!-- header -->
-      <header class="header">
-        <div class="logo">
-          <img src="./assets/project_logo/logo.svg" alt="Kolesa logo" />
-        </div>
-        <input-form></input-form>
-        <user></user>
-      </header>
-      <!-- main block -->
-      <main class="main">
-        <navigation></navigation>
-        <section class="main__content">
-          <div class="banner">
-            <img src="./assets/banner.png" alt="banner" />
-          </div>
-          <hot-keys></hot-keys>
-          <tabs></tabs>
-          <div class="main__items" ref="catalog">
-            <card></card>
-          </div>
-        </section>
-      </main>
+  <div>
+    <div class="card" :key="card.id" v-for="card in allCards">
+      <div class="card__image">
+        <img
+          :src="require(`@/assets/${card.img}`)"
+          alt="Модная футболка"
+          class="card__photo"
+        />
+        <span class="card__beige" v-if="card.isNew">new</span>
+      </div>
+      <div class="card__description">
+        <p class="card__price">{{ card.price }} баллов</p>
+        <h3 class="card__title">{{ card.title }}</h3>
+        <p class="card__size">Размеры S/M/L</p>
+        <button type="button" class="card__btn" hidden @click="openModal()">
+          Заказать
+        </button>
+      </div>
     </div>
-    <my-footer></my-footer>
-    <modal
-      :data="modalData"
-      :isOpen="isShowModal"
-      @close="closeModal"
-      @order="setScore"
-    ></modal>
   </div>
 </template>
 
 <script>
-import axios from "@/axios";
-
-import Navigation from "./components/Navigation.vue";
-import InputForm from "./components/Input.vue";
-import User from "./components/User.vue";
-import HotKeys from "./components/HotKeys.vue";
-import Tabs from "./components/Tabs.vue";
-import Card from "./components/Card.vue";
-import Modal from "./components/Modal.vue";
-import MyFooter from "./components/Footer.vue";
-
 export default {
-  components: {
-    Navigation,
-    InputForm,
-    User,
-    HotKeys,
-    Tabs,
-    Card,
-    Modal,
-    MyFooter,
-  },
-  name: "App",
+  name: "Card",
+  props: {},
   data() {
     return {
       clothes: [
@@ -162,38 +129,11 @@ export default {
           details: "Стакан для кофе",
         },
       ],
-      all: [""],
-      isShowModal: false,
-      tabs: ["Все товары", "Одежда", "Аксессуары"],
-      tabsActive: 0,
-      modalData: {},
-      score: 3945,
     };
-  },
-  mounted() {
-    axios.get("templates/-_RLsEGjof6i/data").then((response) => {
-      console.log(response.data);
-      // this.$store.allCards = response.data;
-    });
   },
   computed: {
     allCards() {
       return this.clothes.concat(this.accessories).sort(this.newSort);
-    },
-    show() {
-      if (this.tabsActive === 0) {
-        return this.allCards;
-      }
-
-      if (this.tabsActive === 1) {
-        return this.clothes;
-      }
-
-      if (this.tabsActive === 2) {
-        return this.accessories;
-      }
-
-      return this.tabsActive;
     },
   },
   methods: {
@@ -212,23 +152,6 @@ export default {
     closeModal() {
       this.isShowModal = false;
     },
-    openCard(data) {
-      console.log(data);
-      this.openModal();
-      this.modalData = data;
-    },
-    setScore(price) {
-      this.closeModal();
-      if (price > this.score) {
-        alert("У вас не хватает баллов");
-      } else {
-        this.score -= price;
-      }
-    },
   },
 };
 </script>
-
-<style lang="scss">
-@import "./assets/css/style.scss";
-</style>
