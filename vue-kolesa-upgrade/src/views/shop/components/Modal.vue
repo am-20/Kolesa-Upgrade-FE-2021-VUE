@@ -48,7 +48,7 @@
             <div class="modal__balance">
               <div class="modal__balance-details">
                 <p class="modal__balance-text">Твой баланс:</p>
-                <p class="modal__balance-amount">3 945 баллов</p>
+                <p class="modal__balance-amount">{{ data.score }} баллов</p>
               </div>
               <span class="modal__balance-icon">🛍</span>
             </div>
@@ -169,104 +169,12 @@ export default {
   data() {
     return {
       isShowModal: false,
-      clothes: [
-        {
-          id: 0,
-          img: "image_4.png",
-          title: "Футболка 'Эволюционируй или сдохни'",
-          price: 220,
-          isNew: true,
-        },
-        {
-          id: 1,
-          img: "image_4.png",
-          title: "Футболка 'Эволюционируй или сдохни'",
-          price: 220,
-          isNew: false,
-        },
-        {
-          id: 2,
-          img: "sweatshirt.jpg",
-          title: "Свитшот",
-          price: 100,
-          isNew: true,
-        },
-        {
-          id: 3,
-          img: "sweatshirt.jpg",
-          title: "Свитшот",
-          price: 100,
-          isNew: false,
-        },
-        {
-          id: 4,
-          img: "polo.png",
-          title: "Поло",
-          price: 340,
-          isNew: true,
-        },
-        {
-          id: 5,
-          img: "polo.png",
-          title: "Поло",
-          price: 340,
-          isNew: false,
-        },
-      ],
-
-      accessories: [
-        {
-          id: 6,
-          img: "bottle.png",
-          title: "Бутылка для воды",
-          price: 100,
-          isNew: true,
-          details: "Бутылка для воды с трубочкой",
-        },
-        {
-          id: 7,
-          img: "bottle.png",
-          title: "Бутылка для воды",
-          price: 100,
-          isNew: false,
-          details: "Бутылка для воды с трубочкой",
-        },
-        {
-          id: 8,
-          img: "cap.png",
-          title: "Кепка",
-          price: 150,
-          isNew: true,
-          details: "Брендированная кепка",
-        },
-        {
-          id: 9,
-          img: "cap.png",
-          title: "Кепка",
-          price: 150,
-          isNew: false,
-          details: "Брендированная кепка",
-        },
-        {
-          id: 10,
-          img: "coffee_cup.jpg",
-          title: "Стакан для кофе",
-          price: 50,
-          isNew: true,
-          details: "Стакан для кофе",
-        },
-        {
-          id: 11,
-          img: "coffee_cup.jpg",
-          title: "Стакан для кофе",
-          price: 50,
-          isNew: false,
-          details: "Стакан для кофе",
-        },
-      ],
+      clothes: [],
+      accessories: [],
       all: [""],
       tabs: ["Все товары", "Одежда", "Аксессуары"],
       tabsActive: 0,
+      score: 500,
     };
   },
   computed: {
@@ -306,7 +214,14 @@ export default {
       this.$emit("close");
     },
     order() {
-      this.$emit("order", this.data.price);
+      const { score } = this.$store.state.userInfo;
+
+      if (score - this.data.price <= 0) {
+        alert("your score is not enough");
+        return;
+      }
+
+      this.$store.commit("setNewScore", this.data.price);
     },
   },
 };

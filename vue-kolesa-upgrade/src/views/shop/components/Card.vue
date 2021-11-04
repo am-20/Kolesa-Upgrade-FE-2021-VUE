@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <div class="card" :key="card.id" v-for="card in allCards">
+  <div class="main__items" ref="catalog">
+    <div class="card" v-for="card in allCards" :key="card.id">
       <div class="card__image">
         <img
+          @click="setName"
           :src="require(`@/assets/${card.img}`)"
           alt="Модная футболка"
           class="card__photo"
@@ -13,7 +14,7 @@
         <p class="card__price">{{ card.price }} баллов</p>
         <h3 class="card__title">{{ card.title }}</h3>
         <p class="card__size">Размеры S/M/L</p>
-        <button type="button" class="card__btn" hidden @click="openModal()">
+        <button type="button" class="card__btn" hidden @click="openModal">
           Заказать
         </button>
       </div>
@@ -23,7 +24,7 @@
 
 <script>
 export default {
-  name: "Card",
+  name: "CardList",
   props: {},
   data() {
     return {
@@ -152,6 +153,10 @@ export default {
     closeModal() {
       this.isShowModal = false;
     },
+  },
+  setName() {
+    this.$store.commit("setName", "Anderson");
+    this.$store.dispatch("updateUserInfo", "Anderson");
   },
 };
 </script>

@@ -3,20 +3,13 @@
     <div class="socials">
       <p class="socials__credits">© Kolesa Group</p>
       <div>
-        <a href="#" class="socials__link">
-          <img
-            :src="require(`@/assets/social_icons/instagram.svg`)"
-            alt="instagram icon"
-          />
-        </a>
-        <a href="#" class="socials__link">
-          <img
-            :src="require(`@/assets/social_icons/youtube.svg`)"
-            alt="youtube icon"
-          />
-        </a>
-        <a href="#" class="socials__link">
-          <img :src="require(`@/assets/social_icons/vk.svg`)" alt="vk icon" />
+        <a
+          href="#"
+          class="socials__link"
+          v-for="(icon, index) in icons"
+          :key="index"
+        >
+          <img :src="require(`@/assets/social_icons/${icon}`)" />
         </a>
       </div>
     </div>
@@ -34,7 +27,9 @@
 export default {
   name: "Footer",
   data() {
-    return {};
+    return {
+      icons: ["instagram.svg", "youtube.svg", "vk.svg"],
+    };
   },
 };
 </script>

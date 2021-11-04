@@ -3,220 +3,41 @@
     <div class="wrapper">
       <!-- header -->
       <header class="header">
-        <div class="logo">
-          <img src="./assets/project_logo/logo.svg" alt="Kolesa logo" />
-        </div>
+        <logo></logo>
         <input-form></input-form>
-        <user></user>
+        <user :user-info="userInfo" @fetchUser="updateUserInfo"> </user>
       </header>
-      <!-- main block -->
       <main class="main">
         <navigation></navigation>
-        <section class="main__content">
-          <div class="banner">
-            <img src="./assets/banner.png" alt="banner" />
-          </div>
-          <hot-keys></hot-keys>
-          <tabs></tabs>
-          <div class="main__items" ref="catalog">
-            <card></card>
-          </div>
-        </section>
+        <router-view></router-view>
       </main>
     </div>
     <my-footer></my-footer>
-    <modal
-      :data="modalData"
-      :isOpen="isShowModal"
-      @close="closeModal"
-      @order="setScore"
-    ></modal>
   </div>
 </template>
 
 <script>
-import axios from "@/axios";
-
-import Navigation from "./components/Navigation.vue";
-import InputForm from "./components/Input.vue";
-import User from "./components/User.vue";
-import HotKeys from "./components/HotKeys.vue";
-import Tabs from "./components/Tabs.vue";
-import Card from "./components/Card.vue";
-import Modal from "./components/Modal.vue";
-import MyFooter from "./components/Footer.vue";
+import Logo from "./layouts/components/Logo.vue";
+import Navigation from "./layouts/components/Navigation.vue";
+import InputForm from "./layouts/components/Input.vue";
+import User from "./layouts/components/User.vue";
+import MyFooter from "./layouts/components/Footer.vue";
 
 export default {
   components: {
+    Logo,
     Navigation,
     InputForm,
     User,
-    HotKeys,
-    Tabs,
-    Card,
-    Modal,
     MyFooter,
   },
   name: "App",
   data() {
     return {
-      clothes: [
-        {
-          id: 0,
-          img: "image_4.png",
-          title: "Футболка 'Эволюционируй или сдохни'",
-          price: 220,
-          isNew: true,
-          details:
-            "Брендированная толстовка от Qazaq Republic. Материал: Хлопок 80%, Вискоза 20%",
-        },
-        {
-          id: 1,
-          img: "image_4.png",
-          title: "Футболка 'Эволюционируй или сдохни'",
-          price: 220,
-          isNew: false,
-          details:
-            "Брендированная толстовка от Qazaq Republic. Материал: Хлопок 80%, Вискоза 20%",
-        },
-        {
-          id: 2,
-          img: "sweatshirt.jpg",
-          title: "Свитшот",
-          price: 100,
-          isNew: true,
-          details: "Брендированный свитшот",
-        },
-        {
-          id: 3,
-          img: "sweatshirt.jpg",
-          title: "Свитшот",
-          price: 100,
-          isNew: false,
-          details: "Брендированный свитшот",
-        },
-        {
-          id: 4,
-          img: "polo.png",
-          title: "Поло",
-          price: 340,
-          isNew: true,
-          details: "Брендированное поло",
-        },
-        {
-          id: 5,
-          img: "polo.png",
-          title: "Поло",
-          price: 340,
-          isNew: false,
-          details: "Брендированное поло",
-        },
-      ],
-      accessories: [
-        {
-          id: 6,
-          img: "bottle.png",
-          title: "Бутылка для воды",
-          price: 100,
-          isNew: true,
-          details: "Бутылка для воды с трубочкой",
-        },
-        {
-          id: 7,
-          img: "bottle.png",
-          title: "Бутылка для воды",
-          price: 100,
-          isNew: false,
-          details: "Бутылка для воды с трубочкой",
-        },
-        {
-          id: 8,
-          img: "cap.png",
-          title: "Кепка",
-          price: 150,
-          isNew: true,
-          details: "Брендированная кепка",
-        },
-        {
-          id: 9,
-          img: "cap.png",
-          title: "Кепка",
-          price: 150,
-          isNew: false,
-          details: "Брендированная кепка",
-        },
-        {
-          id: 10,
-          img: "coffee_cup.jpg",
-          title: "Стакан для кофе",
-          price: 50,
-          isNew: true,
-          details: "Стакан для кофе",
-        },
-        {
-          id: 11,
-          img: "coffee_cup.jpg",
-          title: "Стакан для кофе",
-          price: 50,
-          isNew: false,
-          details: "Стакан для кофе",
-        },
-      ],
-      all: [""],
-      isShowModal: false,
-      tabs: ["Все товары", "Одежда", "Аксессуары"],
-      tabsActive: 0,
-      modalData: {},
       score: 3945,
     };
   },
-  mounted() {
-    axios.get("templates/-_RLsEGjof6i/data").then((response) => {
-      console.log(response.data);
-      // this.$store.allCards = response.data;
-    });
-  },
-  computed: {
-    allCards() {
-      return this.clothes.concat(this.accessories).sort(this.newSort);
-    },
-    show() {
-      if (this.tabsActive === 0) {
-        return this.allCards;
-      }
-
-      if (this.tabsActive === 1) {
-        return this.clothes;
-      }
-
-      if (this.tabsActive === 2) {
-        return this.accessories;
-      }
-
-      return this.tabsActive;
-    },
-  },
   methods: {
-    newSort(x, y) {
-      if (x.isNew === y.isNew) {
-        return 0;
-      }
-      if (x.isNew) {
-        return -1;
-      }
-      return 1;
-    },
-    openModal() {
-      this.isShowModal = true;
-    },
-    closeModal() {
-      this.isShowModal = false;
-    },
-    openCard(data) {
-      console.log(data);
-      this.openModal();
-      this.modalData = data;
-    },
     setScore(price) {
       this.closeModal();
       if (price > this.score) {
